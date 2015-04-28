@@ -1,10 +1,12 @@
 /* global AutoForm, $ */
+var realDate;
 
 AutoForm.addInputType("bootstrap-datepicker", {
   template: "afBootstrapDatepicker",
   valueOut: function () {
     if (this.val()) {
       var val = this.datepicker('getUTCDate');
+      realDate = val;
       return (val instanceof Date) ? val : this.val();
     }
   },
@@ -57,6 +59,10 @@ Template.afBootstrapDatepicker.rendered = function () {
   this.autorun(function () {
     var data = Template.currentData();
 
+    if (realDate) {
+    	data.value = realDate;
+    };
+    
     // set field value
     if (data.value instanceof Date) {
       $input.datepicker('setUTCDate', data.value);
